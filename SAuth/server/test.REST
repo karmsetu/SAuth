@@ -1,0 +1,2 @@
+# checking token
+GET http://localhost:1000/auth-token

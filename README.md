@@ -1,9 +1,11 @@
 # SAuth
 
 !["LOGO"](./img/logo.svg)
-SAuth helps you to sign in to other devices using your root(main) device
-with your root device alone you can control the sign-in logs hassel free
-!["Intro"](./img/intro.svg)
+
+> SAuth helps you to sign in to other devices using your root(main) device
+> with your root device alone you can control the sign-in logs hassel free
+
+!["Intro"](./img/Intro.svg)
 
 ## How to use
 

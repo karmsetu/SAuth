@@ -31,9 +31,10 @@
 ### Process
 
 1. install or clone the repository
-2. cd `SAuth` directory
+2. cd `sauth` directory
 3. change the name of `.env.sample` to `.env`
 4. acquire API keys from your image aploading service (like [cloadinary](https://cloudinary.com/) or [uploadthing](https://uploadthing.com/))
+    > note: if you choose any other service than uploadthing then you would have to make changes to the API handeler accordingly.
 5. make changes to `.env` and put api keys
 6. enter the following command
 

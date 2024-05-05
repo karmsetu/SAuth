@@ -1,9 +1,12 @@
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
 import { UploadThingError } from 'uploadthing/server';
+import { image } from '@/database/model/fileUpload.model';
+import connectDB from '@/database/main';
+import { fakeId } from '@/app/constants';
 
 const f = createUploadthing();
 
-const auth = (req: Request) => ({ id: 'fakeId' }); // Fake auth function
+const auth = (req: Request) => ({ id: fakeId }); // Fake auth function
 
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
@@ -26,6 +29,17 @@ export const ourFileRouter = {
 
             console.log('file url', file.url);
 
+            await connectDB();
+            try {
+                const imageUploader = new image({
+                    userId: metadata.userId,
+                    fileName: file.name,
+                    url: file.url,
+                });
+                await imageUploader.save();
+            } catch (error) {
+                console.error(error);
+            }
             // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
             return { uploadedBy: metadata.userId };
         }),

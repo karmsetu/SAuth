@@ -1,8 +1,10 @@
+'use client';
 import Image from 'next/image';
 import Logo from '@/app/asset/img/gallery-logo.jpeg';
 import Link from 'next/link';
 import { SignIn, SignedIn, UserButton } from '../SAuth_comp/main';
-import UploadButton from './UploadButton';
+// import UploadButton from './UploadButton';
+import { UploadButton } from '@/utils/uploadthing';
 
 const Hero = async () => {
     const isSignedIn = await SignedIn();
@@ -21,7 +23,18 @@ const Hero = async () => {
                 {isSignedIn ? (
                     <>
                         <UserButton />
-                        <UploadButton />
+                        <UploadButton
+                            endpoint="imageUploader"
+                            onClientUploadComplete={(res) => {
+                                // Do something with the response
+                                console.log('Files: ', res);
+                                alert('Upload Completed');
+                            }}
+                            onUploadError={(error: Error) => {
+                                // Do something with the error.
+                                alert(`ERROR! ${error.message}`);
+                            }}
+                        />
                     </>
                 ) : (
                     <SignIn />

@@ -1,13 +1,19 @@
-import mongoose from 'mongoose';
+import connectDB from '@/app/api/db/main';
+import image from '@/database/model/fileUpload.model';
+import { ObjectId } from 'mongoose';
 
-const connectDB = async () => {
-    try {
-        await mongoose.connect(`${process.env.DB_URI as string}/2nd-party`, {});
-        console.log('MongoDB connected successfully!');
-    } catch (error) {
-        console.error('MongoDB connection error:', error);
-        process.exit(1); // Exit the process on connection failure
-    }
+export type ImageType = {
+    _id: ObjectId;
+    userId: string;
+    url: string;
+    fileName: string;
+    __v: number;
 };
 
-export default connectDB;
+const getImages = async () => {
+    await connectDB();
+    const images = await image.find({});
+    return images;
+};
+
+export { getImages };

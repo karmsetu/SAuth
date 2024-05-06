@@ -1,7 +1,8 @@
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
 import { UploadThingError } from 'uploadthing/server';
-import { image } from '@/database/model/fileUpload.model';
-import connectDB from '@/database/main';
+import image from '@/database/model/fileUpload.model';
+// import connectDB from '@/database/main';
+import connectDB from '../db/main';
 import { fakeId } from '@/app/constants';
 
 const f = createUploadthing();

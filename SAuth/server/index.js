@@ -23,6 +23,10 @@ app.post('/sign-up', async (req, res) => {
 app.get('/sign-in', async (req, res) => {
     const { email, password } = req.body;
     const loginResponse = await database.loginUser(email, password);
+    if (!loginResponse.success) {
+        res.send({ error: loginResponse.message }).sendStatus(400);
+    }
+
     res.json(loginResponse);
 });
 // API

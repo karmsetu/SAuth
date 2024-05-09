@@ -1,6 +1,7 @@
 import mongoose, { Model } from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
+import jwt from 'jsonwebtoken';
 
 import user from './models/user.model.js';
 class DataBase {
@@ -30,26 +31,6 @@ class DataBase {
         }
     };
 
-    // signIn = async (name, password) => {
-    //     try {
-    //         const userDetail = await user.findOne({ username: name });
-    //         console.log(userDetail.password);
-    //         userDetail
-    //             .comparePassword(password)
-    //             .then((isMatch) => {
-    //                 console.log(isMatch);
-    //                 return isMatch;
-    //                 // Handle the result: isMatch (true/false) indicates password match
-    //             })
-    //             .catch((error) => {
-    //                 console.error('Error comparing passwords:', error);
-    //             });
-    //     } catch (error) {
-    //         console.error('Error adding the user:', error);
-    //         process.exit(1); // Exit process on error
-    //     }
-    // };
-
     loginUser = async (email, candidatePassword) => {
         try {
             const userModel = await user.findOne({ email }); // Find user by email
@@ -62,8 +43,16 @@ class DataBase {
                 return { success: false, message: 'Invalid email or password' }; // Password mismatch
             }
 
-            // Login successful (user object can be returned here if needed)
-            return { success: true, message: 'Login successful' };
+            // Login successful, generate JWT token
+            const payload = {
+                _id: userModel._id,
+                name: userModel.username || '',
+            }; // Include name if available
+            const token = jwt.sign(payload, process.env.JWT_SECRET, {
+                expiresIn: '3600s',
+            }); // Expires in 1 hour
+            //  Login successful (user object can be returned here if needed)
+            return { success: true, message: 'Login successful', token };
         } catch (error) {
             console.error('Error logging in user:', error);
             return { success: false, message: 'Internal server error' }; // Handle generic error

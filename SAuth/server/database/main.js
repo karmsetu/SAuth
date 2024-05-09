@@ -6,6 +6,8 @@ import crypto from 'crypto';
 
 import user from './models/user.model.js';
 import service from './models/service.model.js';
+import generateQRCode from '../utils/QRgenerator.js';
+import uploadFiles from '../utils/uploadFiles.js';
 class DataBase {
     constructor(param) {
         this.urlParam = param;
@@ -112,6 +114,13 @@ class DataBase {
         } catch (error) {
             return { success: false, message: error }; // Handle generic error
         }
+    };
+
+    getQRURL = async (payload) => {
+        const response = await generateQRCode(payload);
+        console.log({ response });
+        const fileData = await uploadFiles(response);
+        console.log({ fileData });
     };
 }
 

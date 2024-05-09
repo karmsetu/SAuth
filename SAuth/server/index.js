@@ -3,6 +3,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { DataBase } from './database/main.js';
 import generateQRCode from './utils/QRgenerator.js';
+
+// import { createRouteHandler } from 'uploadthing/express';
+// import { uploadRouter } from './src/uploadthing.js';
+
 const app = express();
 app.use(express.json());
 
@@ -46,7 +50,7 @@ app.post('/service/register', async (req, res) => {
 
 app.get('/service/get-qr', async (req, res) => {
     const { id } = req.body;
-    await generateQRCode(id);
+    await database.getQRURL(id);
 });
 app.get('/', (req, res) => {
     res.send({ data: `hello` });

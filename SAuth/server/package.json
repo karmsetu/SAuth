@@ -18,6 +18,7 @@
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.3.4",
         "nodemon": "^3.1.0",
-        "qrcode": "^1.5.3"
+        "qrcode": "^1.5.3",
+        "uploadthing": "^6.10.3"
     }
 }

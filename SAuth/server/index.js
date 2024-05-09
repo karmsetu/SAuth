@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import { DataBase } from './database/main.js';
+import generateQRCode from './utils/QRgenerator.js';
 const app = express();
 app.use(express.json());
 
@@ -41,6 +42,11 @@ app.post('/service/register', async (req, res) => {
     } catch (error) {
         res.send({ success: false, message: 'Internal server error' });
     }
+});
+
+app.get('/service/get-qr', async (req, res) => {
+    const { id } = req.body;
+    await generateQRCode(id);
 });
 app.get('/', (req, res) => {
     res.send({ data: `hello` });

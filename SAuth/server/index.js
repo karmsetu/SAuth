@@ -6,14 +6,15 @@ const app = express();
 app.use(express.json());
 
 // service
-const database = new DataBase(`SAuth`);
-database.connectDB();
+const database = new DataBase();
+const db = await database.connectToMongoDb();
+// const userDB = db.getDatabase('SAuth');
 app.post('/sign-up', async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password)
         res.send({ error: `insufficient protocol` }).sendStatus(400);
     try {
-        const data = await database.addUser(username, password);
+        const data = await database.addUser(username, password, `SAuth`);
         res.send(data);
     } catch (error) {
         res.send(error);
@@ -22,7 +23,7 @@ app.post('/sign-up', async (req, res) => {
 
 app.get('/sign-in', async (req, res) => {
     const { email, password } = req.body;
-    const loginResponse = await database.loginUser(email, password);
+    const loginResponse = await database.loginUser(email, password, `SAuth`);
     if (!loginResponse.success) {
         res.send({ error: loginResponse.message }).sendStatus(400);
     }
@@ -30,6 +31,17 @@ app.get('/sign-in', async (req, res) => {
     res.json(loginResponse);
 });
 // API
+// service
+
+app.post('/service/register', async (req, res) => {
+    const { name } = req.body;
+    try {
+        const data = await serviceDataBase.registerService(name);
+        res.send(data);
+    } catch (error) {
+        res.send({ success: false, message: 'Internal server error' });
+    }
+});
 app.get('/', (req, res) => {
     res.send({ data: `hello` });
 });
